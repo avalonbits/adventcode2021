@@ -30,7 +30,7 @@ func main() {
 	last := math.MaxInt
 	increaseCount := 0
 
-	err := lib.ForLine("./prob1.input", func(line string) {
+	lib.ForLine("./prob1.input", func(line string) {
 		value, err := strconv.Atoi(line)
 		if err != nil {
 			panic(err)
@@ -40,9 +40,6 @@ func main() {
 		}
 		last = value
 	})
-	if err != nil {
-		panic(err)
-	}
 
 	fmt.Println(increaseCount)
 }

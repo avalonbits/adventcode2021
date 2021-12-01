@@ -29,29 +29,20 @@ import (
 func main() {
 	// Read all numbers from input.
 	all := make([]int, 0, 2048)
-	err := lib.ForLine("./prob1.input", func(line string) {
+	lib.ForLine("./prob1.input", func(line string) {
 		value, err := strconv.Atoi(line)
 		if err != nil {
 			panic(err)
 		}
 		all = append(all, value)
 	})
-	if err != nil {
-		panic(err)
-	}
 
 	// For each 3-numbers, do the sum and compare with last seen.
 	increasedCount := 0
 	last := math.MaxInt
-	for window := 0; window < len(all); window++ {
+	for window := 0; window < len(all)-2; window++ {
 		// Make sure we are within bounds when doing the sums.
-		value := all[window]
-		if window < len(all)-1 {
-			value += all[window+1]
-		}
-		if window < len(all)-2 {
-			value += all[window+2]
-		}
+		value := all[window] + all[window+1] + all[window+2]
 
 		if last < value {
 			increasedCount++
