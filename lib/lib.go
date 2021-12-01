@@ -52,8 +52,8 @@ type Number interface {
 	constraints.Integer | constraints.Float | constraints.Complex
 }
 
-func Sum[Number number](nums []Number) Number {
-	var value Number
+func Sum[N Number](nums []N) N {
+	var value N
 	for _, n := range nums {
 		value += n
 	}
