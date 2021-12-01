@@ -48,10 +48,12 @@ func ForLine(fname string, fn func(line string)) {
 	}
 }
 
+// Number is a type constraint that accepts all go number types.
 type Number interface {
 	constraints.Integer | constraints.Float | constraints.Complex
 }
 
+// Sum returns the sum of all numbers in nums.
 func Sum[N Number](nums []N) N {
 	var value N
 	for _, n := range nums {
