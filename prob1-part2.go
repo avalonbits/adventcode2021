@@ -1,34 +1,25 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"math"
-	"os"
 	"strconv"
+
+	"github.com/avalonbits/adventcode2021/lib"
 )
 
 func main() {
-	// Open input file.
-	f, err := os.Open("./prob1.input")
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-
-	// Setup scanner for line reading.
-	scanner := bufio.NewScanner(f)
-	scanner.Split(bufio.ScanLines)
-
 	// Read all numbers from input.
-	all := make([]int, 0, 10240)
-	for scanner.Scan() {
-		line := scanner.Text()
+	all := make([]int, 0, 2048)
+	err := lib.ForLine("./prob1.input", func(line string) {
 		value, err := strconv.Atoi(line)
 		if err != nil {
 			panic(err)
 		}
 		all = append(all, value)
+	})
+	if err != nil {
+		panic(err)
 	}
 
 	// For each 3-numbers, do the sum and compare with last seen.

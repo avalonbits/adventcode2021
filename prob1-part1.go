@@ -1,30 +1,18 @@
 package main
 
 import (
-	"bufio"
 	"fmt"
 	"math"
-	"os"
 	"strconv"
+
+	"github.com/avalonbits/adventcode2021/lib"
 )
 
 func main() {
-	// Open input file.
-	f, err := os.Open("./prob1.input")
-	if err != nil {
-		panic(err)
-	}
-	defer f.Close()
-
-	// Setup scanner for line reading.
-	scanner := bufio.NewScanner(f)
-	scanner.Split(bufio.ScanLines)
-
-	// For each line, convert to int and compare with last seen value.
 	last := math.MaxInt
 	increaseCount := 0
-	for scanner.Scan() {
-		line := scanner.Text()
+
+	err := lib.ForLine("./prob1.input", func(line string) {
 		value, err := strconv.Atoi(line)
 		if err != nil {
 			panic(err)
@@ -33,6 +21,10 @@ func main() {
 			increaseCount++
 		}
 		last = value
+	})
+	if err != nil {
+		panic(err)
 	}
+
 	fmt.Println(increaseCount)
 }
