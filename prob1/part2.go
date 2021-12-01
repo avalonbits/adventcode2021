@@ -42,7 +42,7 @@ func main() {
 	last := math.MaxInt
 	for window := 0; window < len(all)-2; window++ {
 		// Make sure we are within bounds when doing the sums.
-		value := all[window] + all[window+1] + all[window+2]
+		value := lib.Sum(all[window : window+3])
 
 		if last < value {
 			increasedCount++

@@ -21,6 +21,7 @@ package lib
 
 import (
 	"bufio"
+	"constraints"
 	"os"
 )
 
@@ -45,4 +46,16 @@ func ForLine(fname string, fn func(line string)) {
 	if scanner.Err() != nil {
 		panic(scanner.Err())
 	}
+}
+
+type Number interface {
+	constraints.Integer | constraints.Float | constraints.Complex
+}
+
+func Sum[Number number](nums []Number) Number {
+	var value Number
+	for _, n := range nums {
+		value += n
+	}
+	return value
 }
