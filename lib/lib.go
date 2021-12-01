@@ -16,6 +16,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+// Package lib provides common functions used by all problems.
 package lib
 
 import (
