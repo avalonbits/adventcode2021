@@ -20,7 +20,6 @@ package main
 
 import (
 	"fmt"
-	"strconv"
 	"strings"
 
 	"github.com/avalonbits/adventcode2021/lib"
@@ -31,13 +30,11 @@ func main() {
 	depth := 0
 	aim := 0
 	lib.ForLine("./input.txt", func(line string) {
-		cmd := strings.Split(line, " ")
-		value, err := strconv.Atoi(cmd[1])
-		if err != nil {
-			panic(err)
-		}
+		entry := strings.Split(line, " ")
+		cmd := entry[0]
+		value := lib.ToInt(entry[1])
 
-		switch cmd[0] {
+		switch cmd {
 		case "forward":
 			horz += value
 			depth += (value * aim)

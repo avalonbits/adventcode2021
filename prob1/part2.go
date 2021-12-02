@@ -21,7 +21,6 @@ package main
 import (
 	"fmt"
 	"math"
-	"strconv"
 
 	"github.com/avalonbits/adventcode2021/lib"
 )
@@ -30,11 +29,7 @@ func main() {
 	// Read all numbers from input.
 	all := make([]int, 0, 2048)
 	lib.ForLine("./prob1.input", func(line string) {
-		value, err := strconv.Atoi(line)
-		if err != nil {
-			panic(err)
-		}
-		all = append(all, value)
+		all = append(all, lib.ToInt(line))
 	})
 
 	// For each 3-numbers, do the sum and compare with last seen.

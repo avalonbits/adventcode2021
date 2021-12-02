@@ -23,6 +23,7 @@ import (
 	"bufio"
 	"constraints"
 	"os"
+	"strconv"
 )
 
 // ForLine will read the contents of fname and call fn for each line.
@@ -48,13 +49,22 @@ func ForLine(fname string, fn func(line string)) {
 	}
 }
 
-// Number is a type constraint that accepts all go number types.
-type Number interface {
+// ToInt converts value to an integer and panics in case the conversion fails.
+func ToInt(value string) int {
+	v, err := strconv.Atoi(value)
+	if err != nil {
+		panic(err)
+	}
+	return v
+}
+
+// Numeric is a type constraint that accepts all go number types.
+type Numeric interface {
 	constraints.Integer | constraints.Float | constraints.Complex
 }
 
 // Sum returns the sum of all numbers in nums.
-func Sum[N Number](nums []N) N {
+func Sum[N Numeric](nums []N) N {
 	var value N
 	for _, n := range nums {
 		value += n
