@@ -28,7 +28,7 @@ import (
 // ForLine will read the contents of fname and call fn for each line.
 func ForLine(fname string, fn func(line string)) {
 	// Open input file.
-	f, err := os.Open("./prob1.input")
+	f, err := os.Open(fname)
 	if err != nil {
 		panic(err)
 	}
