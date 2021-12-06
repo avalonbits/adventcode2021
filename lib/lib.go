@@ -22,11 +22,8 @@ package lib
 import (
 	"bufio"
 	"constraints"
-	"fmt"
 	"os"
 	"strconv"
-
-	"github.com/avalonbits/adventcode2021/lib/collections"
 )
 
 // ForLine will read the contents of fname and call fn for each line.
@@ -73,103 +70,4 @@ func Sum[N Numeric](nums []N) N {
 		value += n
 	}
 	return value
-}
-
-type Trie[T comparable] struct {
-	alphabet *collections.Set[T]
-	count    int
-
-	nodes map[T]*Trie[T]
-}
-
-func (t *Trie[T]) Count() int {
-	return t.count
-}
-
-func NewTrie[T comparable](alphabet *collections.Set[T]) *Trie[T] {
-	return &Trie[T]{
-		alphabet: alphabet,
-		nodes:    map[T]*Trie[T]{},
-	}
-}
-
-func (t *Trie[T]) Add(value ...T) {
-	if len(value) == 0 {
-		return
-	}
-	t.count++
-	curr := t
-	alphabet := t.alphabet
-	for _, v := range value {
-		if !alphabet.In(v) {
-			panic(fmt.Sprintf("Invalid value '%v' not in alphabet %v", v, *t.alphabet))
-		}
-		next, ok := curr.nodes[v]
-		if !ok {
-			next = NewTrie(curr.alphabet)
-			curr.nodes[v] = next
-		}
-		next.count++
-		curr = next
-	}
-}
-
-func (t *Trie[T]) Values() [][]T {
-	all := make([][]T, t.count)
-	start := 0
-	for v, next := range t.nodes {
-		values := next.allValues(v, all[start:start+next.count])
-		for i := range values {
-			all[start+i] = values[i]
-		}
-		start += next.count
-	}
-	return all
-}
-
-func (t *Trie[T]) allValues(v T, values [][]T) [][]T {
-	if len(values) == 0 {
-		return values
-	}
-	for i := range values {
-		values[i] = append(values[i], v)
-	}
-	start := 0
-	for v, next := range t.nodes {
-		more := next.allValues(v, values[start:start+next.count])
-		for i := range more {
-			values[i+start] = more[i]
-		}
-		start += next.count
-	}
-	return values
-}
-
-func (t *Trie[T]) Longest(chain ...T) [][]T {
-	curr := t
-	prefix := []T{}
-	for _, v := range chain {
-		next, ok := curr.nodes[v]
-		if !ok {
-			break
-		}
-		prefix = append(prefix, v)
-		curr = next
-	}
-	fmt.Println(prefix)
-	values := make([][]T, curr.count)
-	for i := range values {
-		values[i] = append(values[i], prefix[:len(prefix)-1]...)
-	}
-	return curr.allValues(prefix[len(prefix)-1], values)
-}
-
-func (t *Trie[T]) Walk(fn func(nodes map[T]*Trie[T]) *Trie[T]) {
-	curr := t
-	count := 0
-	for len(curr.nodes) != 0 {
-		count++
-		fmt.Println(count)
-		curr = fn(curr.nodes)
-	}
 }

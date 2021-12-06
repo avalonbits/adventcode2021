@@ -29,7 +29,7 @@ import (
 func main() {
 	const width = 12
 	alphabet := collections.NewSet[byte]().Insert('0', '1')
-	trie := lib.NewTrie(alphabet)
+	trie := collections.NewTrie(alphabet)
 	lib.ForLine("./input.txt", func(line string) {
 		trie.Add([]byte(line)...)
 	})
@@ -37,7 +37,7 @@ func main() {
 	most := []byte{}
 	least := []byte{}
 
-	trie.Walk(func(nodes map[byte]*lib.Trie[byte]) *lib.Trie[byte] {
+	trie.Walk(func(nodes map[byte]*collections.Trie[byte]) *collections.Trie[byte] {
 		if len(nodes) == 1 {
 			for v, node := range nodes {
 				most = append(most, v)
@@ -56,7 +56,7 @@ func main() {
 		}
 	})
 
-	trie.Walk(func(nodes map[byte]*lib.Trie[byte]) *lib.Trie[byte] {
+	trie.Walk(func(nodes map[byte]*collections.Trie[byte]) *collections.Trie[byte] {
 		if len(nodes) == 1 {
 			for v, node := range nodes {
 				least = append(least, v)
