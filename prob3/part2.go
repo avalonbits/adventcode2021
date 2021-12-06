@@ -37,39 +37,49 @@ func main() {
 	most := []byte{}
 	least := []byte{}
 
-	trie.Walk(func(nodes map[byte]*collections.Trie[byte]) *collections.Trie[byte] {
+	trie.Walk(func(nodes []collections.TNode[byte]) collections.TNode[byte] {
 		if len(nodes) == 1 {
-			for v, node := range nodes {
-				most = append(most, v)
-				return node
+			most = append(most, nodes[0].V)
+			return nodes[0]
+		}
+		var zero, one *collections.TNode[byte]
+		for i := range nodes {
+			if nodes[i].V == '0' {
+				zero = &nodes[i]
+			} else if nodes[i].V == '1' {
+				one = &nodes[i]
 			}
 		}
-		one := nodes['1']
-		zero := nodes['0']
-		if one.Count() >= zero.Count() {
+
+		if one.Count >= zero.Count {
 			most = append(most, '1')
-			return one
+			return *one
 		} else {
 			most = append(most, '0')
-			return zero
+			return *zero
 		}
 	})
 
-	trie.Walk(func(nodes map[byte]*collections.Trie[byte]) *collections.Trie[byte] {
+	trie.Walk(func(nodes []collections.TNode[byte]) collections.TNode[byte] {
 		if len(nodes) == 1 {
-			for v, node := range nodes {
-				least = append(least, v)
-				return node
+			least = append(least, nodes[0].V)
+			return nodes[0]
+		}
+		var zero, one *collections.TNode[byte]
+		for i := range nodes {
+			if nodes[i].V == '0' {
+				zero = &nodes[i]
+			} else if nodes[i].V == '1' {
+				one = &nodes[i]
 			}
 		}
-		one := nodes['1']
-		zero := nodes['0']
-		if zero.Count() <= one.Count() {
+
+		if zero.Count <= one.Count {
 			least = append(least, '0')
-			return zero
+			return *zero
 		} else {
 			least = append(least, '1')
-			return one
+			return *one
 		}
 	})
 
