@@ -46,7 +46,6 @@ func main() {
 		}
 		one := nodes['1']
 		zero := nodes['0']
-		fmt.Println(one.Count(), zero.Count())
 		if one.Count() >= zero.Count() {
 			most = append(most, '1')
 			return one
@@ -65,7 +64,6 @@ func main() {
 		}
 		one := nodes['1']
 		zero := nodes['0']
-		fmt.Println(one.Count(), zero.Count())
 		if zero.Count() <= one.Count() {
 			least = append(least, '0')
 			return zero
