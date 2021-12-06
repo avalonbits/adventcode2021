@@ -26,10 +26,12 @@ import (
 	"github.com/avalonbits/adventcode2021/lib/collections"
 )
 
+const width = 12
+
 func main() {
-	const width = 12
 	alphabet := collections.NewSet[byte]().Insert('0', '1')
 	trie := collections.NewTrie(alphabet)
+
 	lib.ForLine("./input.txt", func(line string) {
 		trie.Add([]byte(line)...)
 	})
@@ -37,7 +39,7 @@ func main() {
 	most := []byte{}
 	trie.Walk(func(nodes []collections.TNode[byte]) collections.TNode[byte] {
 		var zero, one collections.TNode[byte]
-		if ret := common(nodes, &zero, &one); ret != nil {
+		if ret := getZeroOne(nodes, &zero, &one); ret != nil {
 			most = append(most, ret.V)
 			return *ret
 		}
@@ -54,7 +56,7 @@ func main() {
 	least := []byte{}
 	trie.Walk(func(nodes []collections.TNode[byte]) collections.TNode[byte] {
 		var zero, one collections.TNode[byte]
-		if ret := common(nodes, &zero, &one); ret != nil {
+		if ret := getZeroOne(nodes, &zero, &one); ret != nil {
 			least = append(least, ret.V)
 			return *ret
 		}
@@ -73,7 +75,7 @@ func main() {
 	fmt.Println(string(most), m, string(least), l, m*l)
 }
 
-func common(nodes []collections.TNode[byte], zero, one *collections.TNode[byte]) *collections.TNode[byte] {
+func getZeroOne(nodes []collections.TNode[byte], zero, one *collections.TNode[byte]) *collections.TNode[byte] {
 	if len(nodes) == 1 {
 		return &nodes[0]
 	}
