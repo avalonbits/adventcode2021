@@ -23,11 +23,12 @@ import (
 	"strconv"
 
 	"github.com/avalonbits/adventcode2021/lib"
+	"github.com/avalonbits/adventcode2021/lib/collections"
 )
 
 func main() {
 	const width = 12
-	alphabet := lib.NewSet[byte]().Insert('0', '1')
+	alphabet := collections.NewSet[byte]().Insert('0', '1')
 	trie := lib.NewTrie(alphabet)
 	lib.ForLine("./input.txt", func(line string) {
 		trie.Add([]byte(line)...)

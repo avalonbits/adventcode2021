@@ -25,6 +25,8 @@ import (
 	"fmt"
 	"os"
 	"strconv"
+
+	"github.com/avalonbits/adventcode2021/lib/collections"
 )
 
 // ForLine will read the contents of fname and call fn for each line.
@@ -73,47 +75,8 @@ func Sum[N Numeric](nums []N) N {
 	return value
 }
 
-type Set[T comparable] struct {
-	set map[T]struct{}
-}
-
-func NewSet[T comparable]() *Set[T] {
-	return &Set[T]{
-		set: map[T]struct{}{},
-	}
-}
-
-func (s *Set[T]) Add(v T) *Set[T] {
-	s.set[v] = struct{}{}
-	return s
-}
-
-func (s *Set[T]) Insert(vs ...T) *Set[T] {
-	for _, v := range vs {
-		s.Add(v)
-	}
-	return s
-}
-
-func (s *Set[t]) Size() int {
-	return len(s.set)
-}
-
-func (s *Set[T]) In(v T) bool {
-	_, ok := s.set[v]
-	return ok
-}
-
-func (s *Set[T]) Values() []T {
-	values := make([]T, len(s.set))
-	for key := range s.set {
-		values = append(values, key)
-	}
-	return values
-}
-
 type Trie[T comparable] struct {
-	alphabet *Set[T]
+	alphabet *collections.Set[T]
 	count    int
 
 	nodes map[T]*Trie[T]
@@ -123,7 +86,7 @@ func (t *Trie[T]) Count() int {
 	return t.count
 }
 
-func NewTrie[T comparable](alphabet *Set[T]) *Trie[T] {
+func NewTrie[T comparable](alphabet *collections.Set[T]) *Trie[T] {
 	return &Trie[T]{
 		alphabet: alphabet,
 		nodes:    map[T]*Trie[T]{},
